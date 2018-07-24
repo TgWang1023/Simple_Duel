@@ -1,0 +1,98 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.wrapper {
+    height: 800px;
+}
+
+.title {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 50px;
+    margin-top: 20px;
+}
+
+.title-left {
+    float: left;
+}
+
+.title-right {
+    float: right;
+}
+
+.hp {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 150px;
+}
+
+.title-middle {
+    float: left;
+    width: 200px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.hp-left {
+    width: 500px;
+    height: 50px;
+    float: left;
+    background: greenyellow;
+    border-radius: 10px;
+}
+
+.hp-right {
+    width: 500px;
+    height: 50px;
+    float: right;
+    background: greenyellow;
+    border-radius: 10px;
+}
+
+.content {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 400px;
+}
+
+.footer {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 180px;
+}
+
+#attack {
+    top: 122px;
+    position: relative;
+    display: block;
+    float: left;
+}
+
+#surrender {
+    top: 122px;
+    position: relative;
+    display: block;
+    float: right;
+}
+
+.active-skill {
+    left: 450px;
+    position: relative;
+    width: 160px;
+    height: 160px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#add {
+    margin-left: -4px;
+    width: 80px;
+    height: 80px;
+}
