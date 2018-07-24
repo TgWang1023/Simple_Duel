@@ -19,15 +19,18 @@
             }
             body
             {
-                background: url("{% static 'login/img/lol.png' %}");
+                background: url("{% static 'login/img/log.jpg' %}");
                 background-size: cover;
             }
         </style>
     </head>
     <body>
-        <h1 class="display-2 text-center mt-5 mb-5">Simple Duel!</h1>
         <div class="text-center">
-            <form class="w-25 mx-auto">
+            <form class="w-25 mx-auto mt-5">
+                <div class="form-group">
+                    <label for="username" class="col-form-label col-form-label-lg text-center">Username</label>
+                    <input type="email" class="form-control" id="username" placeholder="Username">
+                </div>
                 <div class="form-group">
                     <label for="email" class="col-form-label col-form-label-lg text-center">Email address</label>
                     <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
@@ -36,10 +39,13 @@
                     <label for="password" class="col-form-label col-form-label-lg text-center">Password</label>
                     <input type="password" class="form-control" id="password" placeholder="Password">
                 </div>
+                <div class="form-group">
+                    <label for="repeat_password" class="col-form-label col-form-label-lg text-center">Repeat Password</label>
+                    <input type="password" class="form-control" id="repeat_password" placeholder="Repeat Password">
+                </div>
                 <button type="submit" class="btn btn-primary w-100 mt-4" id="login_button">Login</button>
             </form>
-            <a href="/register" class="btn btn-link mt-3">Don't have an account? Register here!</a>
+            <a href="/" class="btn btn-link mt-3">Already have an account? Go back</a>
         </div>
-        
     </body>
 </html>
