@@ -35,27 +35,27 @@
             }
                 #knight
                 {
-                    background: url(/Users/tiangewang/Desktop/Coding_Projects/simple_duel/apps/login/static/login/img/knight.png);
+                    background: url("{% static 'login/img/knight.png' %}");
                     background-size: cover;
                 }
                 #rogue
                 {
-                    background: url(/Users/tiangewang/Desktop/Coding_Projects/simple_duel/apps/login/static/login/img/rogue.png);
+                    background: url("{% static 'login/img/rogue.png' %}");
                     background-size: cover;
                 }
                 #mage
                 {
-                    background: url(/Users/tiangewang/Desktop/Coding_Projects/simple_duel/apps/login/static/login/img/mage.png);
+                    background: url("{% static 'login/img/mage.png' %}");
                     background-size: cover;
                 }
                 #ranger
                 {
-                    background: url(/Users/tiangewang/Desktop/Coding_Projects/simple_duel/apps/login/static/login/img/ranger.png);
+                    background: url("{% static 'login/img/ranger.png' %}");
                     background-size: cover;
                 }
                 #beserker
                 {
-                    background: url(/Users/tiangewang/Desktop/Coding_Projects/simple_duel/apps/login/static/login/img/beserker.png);
+                    background: url("{% static 'login/img/beserker.png' %}");
                     background-size: cover;
                 }
             #desc_box
@@ -74,6 +74,7 @@
     <body class="bg-dark">
         <h2 class="display-3 text-center mt-5 mb-5 text-light">Please Choose...</h2>
         <form>
+            {% csrf_token %}
             <button class="sprite" id="knight"></button>
             <button class="sprite" id="rogue"></button>
             <button class="sprite" id="mage"></button>
