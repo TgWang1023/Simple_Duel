@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import *
+import bcrypt
 
 # Create your views here.
 def main(request):
