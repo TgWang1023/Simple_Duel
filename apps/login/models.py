@@ -11,7 +11,7 @@ class PlayerManager(models.Manager):
         #Username validation
         if len(postData['username']) < 3:
             errors['username_length'] = "Username must be at least 3 characters long!"
-        elif not EMAIL_REGEX.match(postData['username']):
+        elif not USERNAME_REGEX.match(postData['username']):
             errors['username_format'] = "Username can only contain letters, numbers, underscores and dots!"
         else:
             players = Player.objects.all()
@@ -70,7 +70,7 @@ class Player(models.Model):
     level = models.IntegerField()
     role = models.IntegerField()
     friends = models.ManyToManyField("self")
-    game = models.ForeignKey(Game, related_name = "players")
+    games = models.ManyToManyField(Game, related_name = "players")
     objects = PlayerManager()
 
 
