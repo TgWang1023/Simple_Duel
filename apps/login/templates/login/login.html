@@ -27,7 +27,8 @@
     <body>
         <h1 class="display-2 text-center mt-5 mb-5">Simple Duel!</h1>
         <div class="text-center">
-            <form class="w-25 mx-auto">
+            <form class="w-25 mx-auto" action="/process_login" method="POST">
+                {% csrf_token %}
                 <div class="form-group">
                     <label for="email" class="col-form-label col-form-label-lg text-center">Email address</label>
                     <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
