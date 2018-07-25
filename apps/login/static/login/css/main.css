@@ -5,7 +5,8 @@
 }
 
 .wrapper {
-    height: 800px;
+    min-height: 750px;
+    background: aliceblue;
 }
 
 .header {
@@ -17,7 +18,7 @@ h1 {
     float: left;
     margin-top: 15px;
     margin-left: 30px;
-    color: silver;
+    color: aliceblue;
 }
 
 .header-button {
@@ -34,8 +35,8 @@ h1 {
 }
 
 .content {
-    min-height: 720px;
-    background: silver;
+    min-height: 800px;
+    background: aliceblue;
 }
 
 .content-button {

@@ -73,13 +73,13 @@
     </head>
     <body class="bg-dark">
         <h2 class="display-3 text-center mt-5 mb-5 text-light">Please Choose...</h2>
-        <form>
+        <form action="/process_pick" method="POST">
             {% csrf_token %}
-            <button class="sprite" id="knight"></button>
-            <button class="sprite" id="rogue"></button>
-            <button class="sprite" id="mage"></button>
-            <button class="sprite" id="ranger"></button>
-            <button class="sprite" id="beserker"></button>
+            <button type="submit" class="sprite" id="knight" name="role" value="knight"></button>
+            <button type="submit" class="sprite" id="rogue" name="role" value="rogue"></button>
+            <button type="submit" class="sprite" id="mage" name="role" value="mage"></button>
+            <button type="submit" class="sprite" id="ranger" name="role" value="ranger"></button>
+            <button type="submit" class="sprite" id="beserker" name="role" value="beserker"></button>
         </form>      
         <div id="desc_box"></div>
     </body>
