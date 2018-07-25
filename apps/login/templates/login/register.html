@@ -30,6 +30,7 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="username" class="col-form-label col-form-label-lg text-center">Username</label>
+<<<<<<< HEAD
                     <input type="text" name="username" class="form-control" id="username" placeholder="Username">
                 </div>
                 <div class="form-group">
@@ -51,6 +52,24 @@
                     <p style="color:red" class="mt-2">{{ message }}</p>
                 {% endfor %}
             {% endif %}
+=======
+                    <input type="email" class="form-control" id="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-form-label col-form-label-lg text-center">Email address</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-form-label col-form-label-lg text-center">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label for="repeat_password" class="col-form-label col-form-label-lg text-center">Repeat Password</label>
+                    <input type="password" class="form-control" id="repeat_password" placeholder="Repeat Password">
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-4" id="login_button">Get Started!</button>
+            </form>
+>>>>>>> e38e878aa438c6e081e462b4dc5ea00b1e8a9fe7
             <a href="/" class="btn btn-link mt-3">Already have an account? Go back</a>
         </div>
     </body>

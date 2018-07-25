@@ -21,6 +21,7 @@ def process_login(request):
             return redirect('/register/pick_class')
 
         request.session['logged_in'] = True
+
         return redirect('/main')
     else:
         return redirect('/')
@@ -40,6 +41,7 @@ def process_reg(request):
         player.save()
         request.session['id'] = player.id
         request.session['name'] = player.username
+
         return redirect('/register/pick_class')
     else:
         return redirect('/')
@@ -49,6 +51,7 @@ def pick_class(request):
 
 def process_pick(request):
     if request.method == 'POST':
+
         player = Player.objects.get(id = request.session['id'])
         if request.POST['role'] == 'knight':
             player.role = 1
