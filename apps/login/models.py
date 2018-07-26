@@ -17,7 +17,7 @@ class PlayerManager(models.Manager):
             players = Player.objects.all()
             for player in players:
                 if player.username == postData['username']:
-                    errors['username_repeat'] = "This email address has already been taken!"
+                    errors['username_repeat'] = "This username has already been taken!"
                     break
         #Email validation
         if len(postData['email']) < 1:
@@ -53,6 +53,8 @@ class PlayerManager(models.Manager):
 
 
 class Game(models.Model):
+    p1_name = models.CharField(max_length = 255)
+    p2_name = models.CharField(max_length = 255)
     p1_health = models.IntegerField()
     p2_health = models.IntegerField()
     p1_frz = models.BooleanField()
@@ -68,6 +70,7 @@ class Player(models.Model):
     username = models.CharField(max_length = 255)
     pass_hs = models.CharField(max_length = 255)
     level = models.IntegerField()
+    exp = models.IntegerField()
     role = models.IntegerField()
     friends = models.ManyToManyField("self")
     games = models.ManyToManyField(Game, related_name = "players")

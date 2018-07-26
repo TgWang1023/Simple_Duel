@@ -1,0 +1,5 @@
+<div class="dropdown-divider"></div>
+<h6 class="dropdown-header">All Players</h6>
+{% for player in players %}
+    <a class="dropdown-item" href="/display/{{ player.id }}">{{ player.username }}<button type="submit" name="player_id" value="{{ player.id }}" class="btn btn-outline-warning w-50" id="add">Add</button></a>
+{% endfor %}

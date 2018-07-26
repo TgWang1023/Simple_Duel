@@ -9,6 +9,7 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         {% load static %}
         <link rel="stylesheet" href="{% static 'login/css/main.css' %}">
         <style>
@@ -19,22 +20,48 @@
                 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             }
         </style>
+        <script>
+            $(document).ready(function(){
+                $('#search').keyup(function(){
+                    $.ajax({
+                        url: '/main/search',
+                        method: 'POST',
+                        data: $(this).parent().serialize(),
+                        success: function(serverResponse){
+                            $('#dropdown').html(serverResponse)
+                        }
+                    });
+                });
+            });
+        </script>
     </head>
     <body>
         <nav class="navbar navbar-dark bg-dark">
             <a class="navbar-brand text-light">Simple Duel</a>
-            <form class="form-inline ml-auto" action="/start_game" method="POST">
-                {% csrf_token %}
-                <div class="dropdown">
+                <div class="dropdown ml-auto">
                     <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Friends
                     </button>
                     <div class="dropdown-menu dropdown-menu-right mt-3" style="overflow: auto;" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/display/1">Mint<button type="submit" class="btn btn-outline-primary w-50" id="add">New Game</button></a>
-                        <a class="dropdown-item" href="/display/1">Mint<button type="submit" class="btn btn-outline-success ml-2 w-50" id="add">Countinue</button></a>
+                        <form action="/main/search" method="POST">
+                            {% csrf_token %}
+                            <input type="text" class="dropdown-item" placeholder="Find someone..." name="search" id="search">
+                        </form>
+                        <form action="/main/add_friend" method="POST">
+                            {% csrf_token %}
+                            <div id="dropdown"></div>
+                        </form>
+                        <div class="dropdown-divider"></div>
+                        <h6 class="dropdown-header">Friends</h6>
+                            {% for friend in friends %}
+                                <form class="form-inline" action="/start_game/{{ friend.id }}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="enemy_id" value="{{ friend.id }}">
+                                    <a class="dropdown-item" href="/display/{{ friend.id }}">{{ friend.username }}<button type="submit" name="start" value="new" class="btn btn-outline-success w-50" id="add">Play!</button></a>
+                                </form>
+                            {% endfor %}
                     </div>
                 </div>
-            </form>
             <form class="form-inline" action="/logout" method="POST">
                 {% csrf_token %}
                 <button class="btn btn-danger my-2 my-sm-0 ml-3" type="submit">Log Out</button>
@@ -45,14 +72,14 @@
                 <div class="card text-center" style="width: 25rem;">
                     <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title">Player Name</h5>
+                        <h5 class="card-title">{{ request.session.username }}</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item text-center">
-                            Knight LV.999
+                            {{ role }} LV.{{ level }}
                             <div class="progress mt-2">
-                                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar" style="width: {{ progress }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
                     </ul>
@@ -64,24 +91,24 @@
                         Statistics
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Max HP: 999</li>
-                        <li class="list-group-item">ATK: 999</li>
-                        <li class="list-group-item">DEF: 999</li>
+                        <li class="list-group-item">Max HP: {{ hp }}</li>
+                        <li class="list-group-item">ATK: {{ atk }}</li>
+                        <li class="list-group-item">DEF: {{ defe }}</li>
                     </ul>
                 </div>
                 <div class="card-group mt-4" style="width: 25rem;">
                     <div class="card">
                         <img class="card-img-top" src=".../100px180/" alt="Card image cap">
                         <div class="card-body">
-                        <h5 class="card-title">Skill Name</h5>
-                        <p class="card-text">Skill Description</p>
+                        <h5 class="card-title">{{ s1_name }}</h5>
+                        <p class="card-text">{{ s1_desc }}</p>
                         </div>
                     </div>
                     <div class="card">
                         <img class="card-img-top" src=".../100px180/" alt="Card image cap">
                         <div class="card-body">
-                        <h5 class="card-title">Skill Name</h5>
-                        <p class="card-text">Skill Description</p>
+                        <h5 class="card-title">{{ s2_name }}</h5>
+                        <p class="card-text">{{ s2_desc }}</p>
                         </div>
                     </div>
                 </div>
@@ -89,45 +116,31 @@
                     <div class="card">
                         <img class="card-img-top" src=".../100px180/" alt="Card image cap">
                         <div class="card-body">
-                        <h5 class="card-title">Skill Name</h5>
-                        <p class="card-text">Skill Description</p>
+                        <h5 class="card-title">{{ s3_name }}</h5>
+                        <p class="card-text">{{ s3_desc }}</p>
                         </div>
                     </div>
                     <div class="card">
                         <img class="card-img-top" src=".../100px180/" alt="Card image cap">
                         <div class="card-body">
-                        <h5 class="card-title">Skill name</h5>
-                        <p class="card-text">Skill Description</p>
+                        <h5 class="card-title">{{ s4_name }}</h5>
+                        <p class="card-text">{{ s4_desc }}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <h2 class="mb-3">Recent Game Sessions:</h2>
-                <div class="card mb-4" style="width: 25rem;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Vs. <a href="/display/1" class="btn-link">Name</a></h5>
-                        <p class="card-text">Enemy role pic and lv, your health and enemy health</p>
-                        <a href="#" class="badge badge-pill badge-success">Countinue</a>
-                        <a href="#" class="badge badge-pill badge-danger">Surrender</a>
+                {% for game in recent_games %}
+                    <div class="card mb-4" style="width: 25rem;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Vs. <a href="/display/1" class="btn-link">Name</a></h5>
+                            <p class="card-text">Enemy role pic and lv, your health and enemy health</p>
+                            <a href="#" class="badge badge-pill badge-success">Countinue</a>
+                            <a href="#" class="badge badge-pill badge-danger">Surrender</a>
+                        </div>
                     </div>
-                </div>
-                <div class="card mb-4" style="width: 25rem;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Vs. <a href="/display/1" class="btn-link">Name</a></h5>
-                        <p class="card-text">Enemy role pic and lv, your health and enemy health</p>
-                        <a href="#" class="badge badge-pill badge-success">Countinue</a>
-                        <a href="#" class="badge badge-pill badge-danger">Surrender</a>
-                    </div>
-                </div>
-                <div class="card mb-4" style="width: 25rem;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Vs. <a href="/display/1" class="btn-link">Name</a></h5>
-                        <p class="card-text">Enemy role pic and lv, your health and enemy health</p>
-                        <a href="#" class="badge badge-pill badge-success">Countinue</a>
-                        <a href="#" class="badge badge-pill badge-danger">Surrender</a>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </body>
