@@ -9,6 +9,7 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         {% load static %}
         <style>
             *
@@ -70,6 +71,49 @@
                 background-color: lightgray;
             }
         </style>
+        <script>
+            $(document).ready(function(){
+                $('#knight').hover(function(){
+                    $('#desc_box').append($('<h2 class="text-center mt-3">Knight<h2>'));
+                    $('#desc_box').append($('<p style="font-size: 150%" class="text-center mt-2 ml-3 mr-3">High defense and high health. Not easy to kill and provides lots of utilities.<p>'));         
+                }, function(){
+                    $('#desc_box').find('h2').remove();
+                    $('#desc_box').find('p').remove();
+                });
+                
+                $('#rogue').hover(function(){
+                    $('#desc_box').append($('<h2 class="text-center mt-3">Rogue<h2>'));
+                    $('#desc_box').append($('<p style="font-size: 150%" class="text-center mt-2 ml-3 mr-3">Good at dealing extreme damage and thus bursting down the enemy in a few hits.<p>'));
+                }, function(){
+                    $('#desc_box').find('h2').remove();
+                    $('#desc_box').find('p').remove();
+                });
+
+                $('#mage').hover(function(){
+                    $('#desc_box').append($('<h2 class="text-center mt-3">Mage<h2>'));
+                    $('#desc_box').append($('<p style="font-size: 150%" class="text-center mt-2 ml-3 mr-3">Control-oriented class. Good at providing buffs and debuffs.<p>'));
+                }, function(){
+                    $('#desc_box').find('h2').remove();
+                    $('#desc_box').find('p').remove();
+                });
+
+                $('#ranger').hover(function(){
+                    $('#desc_box').append($('<h2 class="text-center mt-3">Ranger<h2>'));
+                    $('#desc_box').append($('<p style="font-size: 150%" class="text-center mt-2 ml-3 mr-3">Good at playing the long game, excel at weakening the enemy.<p>'));
+                }, function(){
+                    $('#desc_box').find('h2').remove();
+                    $('#desc_box').find('p').remove();
+                });
+
+                $('#beserker').hover(function(){
+                    $('#desc_box').append($('<h2 class="text-center mt-3">Beserker<h2>'));
+                    $('#desc_box').append($('<p style="font-size: 150%" class="text-center mt-2 ml-3 mr-3">All about damage. Provides abilities that enhance and deal massive damage while also taking more.<p>'));
+                }, function(){
+                    $('#desc_box').find('h2').remove();
+                    $('#desc_box').find('p').remove();
+                });
+            });
+        </script>    
     </head>
     <body class="bg-dark">
         <h2 class="display-3 text-center mt-5 mb-5 text-light">Please Choose...</h2>

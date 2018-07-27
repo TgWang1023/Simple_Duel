@@ -111,8 +111,17 @@
                 {% for game in recent_games %}
                     <div class="card mb-4" style="width: 25rem;">
                         <div class="card-body text-center">
-                            <h5 class="card-title">Vs. <a href="/display/1" class="btn-link">Name</a></h5>
-                            <p class="card-text">Enemy role pic and lv, your health and enemy health</p>
+                            {% for recent_player in recent_players %}
+                                {% if forloop.counter == forloop.parentloop.counter %}
+                                    {% if recent_player.id == request.session.id %}
+                                    <h5 class="card-title">Vs. <a href="/main" class="btn-link">{{ recent_player.username }}</a></h5>
+                                    <p class="card-text">LV. {{ recent_player.level }}</p>
+                                    {% else %}
+                                    <h5 class="card-title">Vs. <a href="/display/{{recent_player.id}}" class="btn-link">{{ recent_player.username }}</a></h5>
+                                    <p class="card-text">LV. {{ recent_player.level }}</p>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 {% endfor %}

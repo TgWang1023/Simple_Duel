@@ -51,20 +51,6 @@ class PlayerManager(models.Manager):
             errors['no_email'] = "This email address doesn't exist!"
         return errors
 
-
-class Game(models.Model):
-    p1_name = models.CharField(max_length = 255)
-    p2_name = models.CharField(max_length = 255)
-    p1_health = models.IntegerField()
-    p2_health = models.IntegerField()
-    p1_frz = models.BooleanField()
-    p2_frz = models.BooleanField()
-    p1_brn = models.BooleanField()
-    p2_brn = models.BooleanField()
-    p1_pos = models.BooleanField()
-    p2_pos = models.BooleanField()
-    battleground = models.IntegerField()
-
 class Player(models.Model):
     email = models.CharField(max_length = 255)
     username = models.CharField(max_length = 255)
@@ -73,7 +59,22 @@ class Player(models.Model):
     exp = models.IntegerField()
     role = models.IntegerField()
     friends = models.ManyToManyField("self")
-    games = models.ManyToManyField(Game, related_name = "players")
     objects = PlayerManager()
+
+class Game(models.Model):
+    creator_health = models.IntegerField()
+    member_health = models.IntegerField()
+    creator_frz = models.BooleanField()
+    member_frz = models.BooleanField()
+    creator_brn = models.BooleanField()
+    member_brn = models.BooleanField()
+    creator_pos = models.BooleanField()
+    member_pos = models.BooleanField()
+    battleground = models.IntegerField()
+    creator = models.ForeignKey(Player, related_name = "create")
+    joiner = models.ForeignKey(Player, related_name = "join")
+    players = models.ManyToManyField(Player, related_name = "games")
+
+
 
 

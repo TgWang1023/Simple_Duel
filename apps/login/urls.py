@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^main$', views.main),
     url(r'^main/search$', views.search),
     url(r'^main/add_friend$', views.add_friend),
-    url(r'^display/(?P<id>\d+)$', views.display_player),
+    url(r'^display/(?P<num>\d+)$', views.display_player),
     url(r'^logout$', views.logout),
     url(r'^start_game', views.start_game),
     url(r'^game_sess/(?P<id>\d+)$', views.game_sess),

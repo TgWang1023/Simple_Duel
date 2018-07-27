@@ -140,6 +140,12 @@ def main(request):
         s4_name = "Adrenaline Rush"
         s4_desc = "Your attack is increased for the next few turns and also apply a bleeding effect. CD: 5"
 
+    recent_players = []
+    for game in Player.objects.get(id = request.session['id']).games.order_by('-id')[:3]:
+        for player in game.players.all():
+            if player.id != request.session['id']:
+                recent_players.append(player)
+
     context = {
         'role': role,
         'level': level + 1,
@@ -157,12 +163,16 @@ def main(request):
         's4_desc': s4_desc,
         'player': Player.objects.get(id = request.session['id']),
         'friends': Player.objects.get(id = request.session['id']).friends.order_by('username'),
-        'recent_games': Player.objects.get(id = request.session['id']).games.order_by('-id')[:3]
+        'recent_games': Player.objects.get(id = request.session['id']).games.order_by('-id')[:3],
+        'recent_players': recent_players,
     }
     return render(request, 'login/main.html', context)
 
 def search(request):
-    players = Player.objects.filter(username__startswith = request.POST['search']).exclude(id = request.session['id']).order_by('username')
+    friends_id = []
+    for friend in Player.objects.get(id = request.session['id']).friends.all():
+        friends_id.append(friend.id)
+    players = Player.objects.filter(username__startswith = request.POST['search']).exclude(id = request.session['id']).exclude(id__in = friends_id).order_by('username')
     return render(request, 'login/search.html', { 'players': players })
 
 def add_friend(request):
@@ -174,10 +184,10 @@ def add_friend(request):
     else:
         return redirect('/')
 
-def display_player(request, id):
-    username = Player.objects.get(id = id).username
-    role_id = Player.objects.get(id = id).role
-    level = Player.objects.get(id = id).level - 1
+def display_player(request, num):
+    username = Player.objects.get(id = num).username
+    role_id = Player.objects.get(id = num).role
+    level = Player.objects.get(id = num).level - 1
     if role_id == 1:
         role = "Knight"
         hp = 50 + 5 * level
@@ -248,8 +258,11 @@ def display_player(request, id):
         s4_name = "Adrenaline Rush"
         s4_desc = "Your attack is increased for the next few turns and also apply a bleeding effect. CD: 5"
 
-    for game in Player.objects.get(id = id).games.order_by('-id')[:3]:
-        pass
+    recent_players = []
+    for game in Player.objects.get(id = num).games.order_by('-id')[:3]:
+        for player in game.players.all():
+            if player.id != int(num):
+                recent_players.append(player)
 
     context = {
         'username': username,
@@ -267,9 +280,10 @@ def display_player(request, id):
         's3_desc': s3_desc,
         's4_name': s4_name,
         's4_desc': s4_desc,
-        'player': Player.objects.get(id = id),
-        'friends': Player.objects.get(id = id).friends.order_by('username'),
-        'recent_games': Player.objects.get(id = id).games.order_by('-id')[:3]
+        'player': Player.objects.get(id = num),
+        'friends': Player.objects.get(id = num).friends.order_by('username'),
+        'recent_games': Player.objects.get(id = num).games.order_by('-id')[:3],
+        'recent_players': recent_players,
     }
     return render(request, 'login/display_player.html', context)
 
@@ -281,7 +295,14 @@ def logout(request):
         return redirect('/') 
 
 def start_game(request):
-    if request.method == 'POST':    
+    if request.method == 'POST': 
+        your_games = Player.objects.get(id = request.session['id']).games.all()
+        for game in your_games:
+            for player in game.players.all():
+                if player.id == int(request.POST['enemy_id']):
+                    request.session['enemy_id'] = request.POST['enemy_id']
+                    return redirect(f'/game_sess/{game.id}')
+
         you = Player.objects.get(id = request.session['id'])
         enemy = Player.objects.get(id = request.POST['enemy_id'])
         request.session['enemy_id'] = request.POST['enemy_id']
@@ -310,7 +331,7 @@ def start_game(request):
         elif enemy.role == 5:
             enemy_health = 40 + 4 * (enemy.level - 1)
 
-        g = Game(p1_name = your_name, p2_name = enemy_name, p1_health = your_health, p2_health = enemy_health, p1_frz = False, p2_frz = False, p1_brn = False, p2_brn = False, p1_pos = False, p2_pos = False, battleground = 1)
+        g = Game(creator = you, joiner = enemy, creator_health = your_health, member_health = enemy_health, creator_frz = False, member_frz = False, creator_brn = False, member_brn = False, creator_pos = False, member_pos = False, battleground = 1)
         g.save()
         g_obj = Game.objects.get(id = g.id)
         g_obj.players.add(you)
@@ -327,11 +348,15 @@ def game_sess(request, id):
     your_name = Game.objects.get(id = id).players.get(id = request.session['id']).username
     your_role_id = Game.objects.get(id = id).players.get(id = request.session['id']).role
     your_level = Game.objects.get(id = id).players.get(id = request.session['id']).level
-    your_health = Game.objects.get(id = id).p1_health
+    if request.session['id'] == Game.objects.get(id = id).creator.id:
+        your_health = Game.objects.get(id = id).creator_health
+        enemy_health = Game.objects.get(id = id).member_health
+    else:
+        your_health = Game.objects.get(id = id).member_health
+        enemy_health = Game.objects.get(id = id).creator_health
     enemy_name = Game.objects.get(id = id).players.get(id = request.session['enemy_id']).username
     enemy_role_id = Game.objects.get(id = id).players.get(id = request.session['enemy_id']).role
     enemy_level = Game.objects.get(id = id).players.get(id = request.session['enemy_id']).level
-    enemy_health = Game.objects.get(id = id).p2_health
 
     if your_role_id == 1:
         your_role = "Knight"

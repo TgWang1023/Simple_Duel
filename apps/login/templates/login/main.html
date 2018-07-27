@@ -54,7 +54,7 @@
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header">Friends</h6>
                             {% for friend in friends %}
-                                <form class="form-inline" action="/start_game/{{ friend.id }}" method="POST">
+                                <form class="form-inline" action="/start_game" method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" name="enemy_id" value="{{ friend.id }}">
                                     <a class="dropdown-item" href="/display/{{ friend.id }}">{{ friend.username }}<button type="submit" name="start" value="new" class="btn btn-outline-success w-50" id="add">Play!</button></a>
@@ -134,10 +134,18 @@
                 {% for game in recent_games %}
                     <div class="card mb-4" style="width: 25rem;">
                         <div class="card-body text-center">
-                            <h5 class="card-title">Vs. <a href="/display/1" class="btn-link">Name</a></h5>
-                            <p class="card-text">Enemy role pic and lv, your health and enemy health</p>
-                            <a href="#" class="badge badge-pill badge-success">Countinue</a>
-                            <a href="#" class="badge badge-pill badge-danger">Surrender</a>
+                            {% for recent_player in recent_players %}
+                                {% if forloop.counter == forloop.parentloop.counter %}
+                                    <h5 class="card-title">Vs. <a href="/display/{{recent_player.id}}" class="btn-link">{{ recent_player.username }}</a></h5>
+                                    <p class="card-text">LV. {{ recent_player.level }}</p>
+                                    <form action="/start_game" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="enemy_id" value="{{ recent_player.id }}">
+                                        <button type="submit" class="badge badge-pill badge-success">Countinue</button>
+                                        <button type="submit" class="badge badge-pill badge-danger">Surrender</button>
+                                    </form>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
                 {% endfor %}
