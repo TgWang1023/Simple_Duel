@@ -77,12 +77,17 @@ def main(request):
         defe = 10 + 4 * level
         s1_name = "Shield Wall"
         s1_desc = "Reduce damage taken from the enemy for a few turns. CD: 4"
+        s1_img = 'login/img/shield.png'
         s2_name = "War Cry"
         s2_desc = "Attracts the enemy's attention and forces him/her to use only basic attack for a few turns. CD: 6"
+        s2_img = 'login/img/holy_aura.png'
         s3_name = "Crippling Blows"
         s3_desc = "Your normal attacks cripple the enemy, reducing their damage and stacks up to 5 times. CD: 6"
+        s3_img = 'login/img/cleave.png'
         s4_name = "Revenge"
         s4_desc = "Deal equal damange taken from an enemy back at the enemy for the next turn. CD: 3"
+        s4_img = 'login/img/flamestrike.png'
+        role_pic = 'login/img/ranger.jpeg'
 
     elif role_id == 2:
         role = "Rogue"
@@ -91,12 +96,17 @@ def main(request):
         defe = 5 + 3 * level
         s1_name = "Poisoned knife"
         s1_desc = "Hurls a poisoned knife at the target. Deals damage over a few turns.. CD: 5"
+        s1_img = 'login/img/crit.png'
         s2_name = "Paralytic Knife"
         s2_desc = "Throw a knife coated in a toxin that renders its victim helpless for a few turns. CD: 4"
+        s2_img = 'login/img/crit.png'
         s3_name = "Expose Weakness"
         s3_desc = "If the enemy has an effect, youe next attack deals massive damage. CD: 7"
+        s3_img = 'login/img/crit.png'
         s4_name = "Shadowstep"
         s4_desc = "Greatly increases dexterity and greatly increases damage of your next attack. CD: 5 "
+        s4_img = 'login/img/crit.png'
+        role_pic = 'login/img/ranger.jpeg'
 
     elif role_id == 3:
         role = "Mage"
@@ -105,12 +115,17 @@ def main(request):
         defe = 3 + 2 * level
         s1_name = "Fireball"
         s1_desc = "Launches a fireball at your enemy and burn them for a few turns. CD: 4"
+        s1_img = 'login/img/crit.png'
         s2_name = "Blizzard"
         s2_desc = "Lowers the enemy attack and freezes the enemy for a few turns. CD: 4"
+        s2_img = 'login/img/crit.png'
         s3_name = "Mage Shield"
         s3_desc = "Recovers some lost hp in the form of shield. CD: 4"
+        s3_img = 'login/img/crit.png'
         s4_name = "Teleport"
         s4_desc = "Greatly increases evasiveness for the next few turns. CD: 8"
+        s4_img = 'login/img/crit.png'
+        role_pic = 'login/img/ranger.jpeg'
 
     elif role_id == 4:
         role = "Ranger"
@@ -119,12 +134,17 @@ def main(request):
         defe = 4 + 2 * level
         s1_name = "Aimed Shot"
         s1_desc = "A precisely aimed shot which deals more damage the less heatlh the enemy has. CD: 3"
+        s1_img = 'login/img/crit.png'
         s2_name = "Vile Bolt"
         s2_desc = "A poisoned arrow which deals containuous damage and leaves the victim with less defense. CD: 5"
+        s2_img = 'login/img/poison.png'
         s3_name = "Secret Trap"
         s3_desc = "A trap that lowers the enemy defense and lasts for 2 turns. Triggers whenever the enemy uses active skills. CD: 6"
+        s3_img = 'login/img/trap.png'
         s4_name = "Apollo Strike"
         s4_desc = "A burtal shot that leaves the enemy unconscious for 2 turns. Only works if the enemy has less health than you. CD: 7"
+        s4_img = 'login/img/apollo.png'
+        role_pic = 'login/img/ranger.jpeg'
 
     elif role_id == 5:
         role = "Beserker"
@@ -133,12 +153,17 @@ def main(request):
         defe = 6 + 3 * level
         s1_name = "Enrage"
         s1_desc = "Increasing damage dealt AND taken for a few turns. CD: 5"
+        s1_img = 'login/img/crit.png'
         s2_name = "Death Wish"
         s2_desc = "Take away a portion of youe health and deal massive damage to the enemy. CD: 3"
+        s2_img = 'login/img/crit.png'
         s3_name = "Bloodthirsty"
         s3_desc = "Your next few attacks recovers some of your HP based on your damage. CD: 6"
+        s3_img = 'login/img/crit.png'
         s4_name = "Adrenaline Rush"
         s4_desc = "Your attack is increased for the next few turns and also apply a bleeding effect. CD: 5"
+        s4_img = 'login/img/crit.png'
+        role_pic = 'login/img/ranger.jpeg'
 
     recent_players = []
     for game in Player.objects.get(id = request.session['id']).games.order_by('-id')[:3]:
@@ -155,12 +180,17 @@ def main(request):
         'progress': str(Player.objects.get(id = request.session['id']).exp * 100 / (5 + 2 * level)),
         's1_name': s1_name,
         's1_desc': s1_desc,
+        's1_img': s1_img,
         's2_name': s2_name,
         's2_desc': s2_desc,
+        's2_img': s2_img,
         's3_name': s3_name,
         's3_desc': s3_desc,
+        's3_img': s3_img,
         's4_name': s4_name,
         's4_desc': s4_desc,
+        's4_img': s4_img,
+        'role_pic': role_pic,
         'player': Player.objects.get(id = request.session['id']),
         'friends': Player.objects.get(id = request.session['id']).friends.order_by('username'),
         'recent_games': Player.objects.get(id = request.session['id']).games.order_by('-id')[:3],
@@ -331,7 +361,7 @@ def start_game(request):
         elif enemy.role == 5:
             enemy_health = 40 + 4 * (enemy.level - 1)
 
-        g = Game(creator = you, joiner = enemy, creator_health = your_health, member_health = enemy_health, creator_frz = False, member_frz = False, creator_brn = False, member_brn = False, creator_pos = False, member_pos = False, battleground = 1)
+        g = Game(creator = you, joiner = enemy, creator_health = your_health, member_health = enemy_health, creator_frz = False, member_frz = False, creator_brn = False, member_brn = False, creator_pos = False, member_pos = False, battleground = 1, creator_turn = True)
         g.save()
         g_obj = Game.objects.get(id = g.id)
         g_obj.players.add(you)
@@ -341,10 +371,10 @@ def start_game(request):
     else:
         return redirect('/') 
 
-def cont_game(request):
-    pass
-
 def game_sess(request, id):
+    request.session['game_id'] = id
+    request.session['role'] = Game.objects.get(id = id).players.get(id = request.session['id']).role
+
     your_name = Game.objects.get(id = id).players.get(id = request.session['id']).username
     your_role_id = Game.objects.get(id = id).players.get(id = request.session['id']).role
     your_level = Game.objects.get(id = id).players.get(id = request.session['id']).level
@@ -360,30 +390,35 @@ def game_sess(request, id):
 
     if your_role_id == 1:
         your_role = "Knight"
+        your_max_hp = 50 + 5 * (Game.objects.get(id = id).players.get(id = request.session['id']).level - 1)
         s1_name = "Shield Wall"
         s2_name = "War Cry"
         s3_name = "Crippling Blows"
         s4_name = "Revenge"
     elif your_role_id == 2:
         your_role = "Rogue"
+        your_max_hp = 30 + 53* (Game.objects.get(id = id).players.get(id = request.session['id']).level - 1)
         s1_name = "Poisoned knife"
         s2_name = "Paralytic Knife"
         s3_name = "Expose Weakness"
         s4_name = "Shadowstep"
     elif your_role_id == 3:
         your_role = "Mage"
+        your_max_hp = 30 + 3 * (Game.objects.get(id = id).players.get(id = request.session['id']).level - 1)
         s1_name = "Fireball"
         s2_name = "Blizzard"
         s3_name = "Mage Shield"
         s4_name = "Teleport"
     elif your_role_id == 4:
         your_role = "Ranger"
+        your_max_hp = 30 + 3 * (Game.objects.get(id = id).players.get(id = request.session['id']).level - 1)
         s1_name = "Aimed Shot"       
         s2_name = "Vile Bolt"
         s3_name = "Secret Trap"
         s4_name = "Apollo Strike"
     elif your_role_id == 5:
         your_role = "Beserker"
+        your_max_hp = 40 + 4 * (Game.objects.get(id = id).players.get(id = request.session['id']).level - 1)
         s1_name = "Enrage"
         s2_name = "Death Wish"
         s3_name = "Bloodthirsty"
@@ -391,24 +426,33 @@ def game_sess(request, id):
 
     if enemy_role_id == 1:
         enemy_role = "Knight"
+        enemy_max_hp = 50 + 5 * (Game.objects.get(id = id).players.get(id = request.session['enemy_id']).level - 1)
     elif enemy_role_id == 2:
         enemy_role = "Rogue"
+        enemy_max_hp = 30 + 3 * (Game.objects.get(id = id).players.get(id = request.session['enemy_id']).level - 1)
     elif enemy_role_id == 3:
         enemy_role = "Mage"
+        enemy_max_hp = 30 + 3 * (Game.objects.get(id = id).players.get(id = request.session['enemy_id']).level - 1)
     elif enemy_role_id == 4:
         enemy_role = "Ranger"
+        enemy_max_hp = 30 + 3 * (Game.objects.get(id = id).players.get(id = request.session['enemy_id']).level - 1)
     elif enemy_role_id == 5:
         enemy_role = "Beserker"
+        enemy_max_hp = 40 + 4 * (Game.objects.get(id = id).players.get(id = request.session['enemy_id']).level - 1)
 
     context = {
         'your_name': your_name,
         'your_role': your_role,
         'your_level': your_level,
         'your_health': your_health,
+        'your_max_health': your_max_hp,
         'enemy_name': enemy_name,
         'enemy_role': enemy_role,
         'enemy_level': enemy_level,
         'enemy_health': enemy_health,
+        'enemy_max_health': enemy_max_hp,
+        'your_hp_percentage': 100 * your_health / your_max_hp, 
+        'enemy_hp_percentage': 100 * enemy_health / enemy_max_hp, 
         's1_name': s1_name,
         's2_name': s2_name,
         's3_name': s3_name,
@@ -417,12 +461,108 @@ def game_sess(request, id):
     return render(request, 'login/game.html', context)
 
 def attack(request):
-    if request.method == 'POST':
-        return redirect('/main')
+    if request.method == 'POST': 
+        if request.session['id'] == Game.objects.get(id = request.session['game_id']).creator.id:
+            if Game.objects.get(id = request.session['game_id']).creator_health <= 0:
+                messages.error(request, "You Lost!", extra_tags = "lose")
+                return redirect(f"/game_sess/{request.session['game_id']}")
+            elif Game.objects.get(id = request.session['game_id']).member_health <= 0:
+                messages.success(request, "You Win!", extra_tags = "win")
+                return redirect(f"/game_sess/{request.session['game_id']}")
+
+            if Game.objects.get(id = request.session['game_id']).creator_turn == True:
+                if request.session['role'] == 1:
+                    if request.POST['attack'] == "basic_attack":
+                        h = Game.objects.get(id = request.session['game_id']) 
+                        h.member_health -= (4 + (Player.objects.get(id = Game.objects.get(id = request.session['game_id']).joiner.id).level - 1) * 2)
+                        h.save()
+                elif request.session['role'] == 2:
+                    if request.POST['attack'] == "basic_attack":
+                        h = Game.objects.get(id = request.session['game_id'])
+                        h.member_health -= (10 + (Player.objects.get(id = Game.objects.get(id = request.session['game_id']).joiner.id).level - 1) * 4)
+                        h.save()
+                elif request.session['role'] == 3:
+                    if request.POST['attack'] == "basic_attack":
+                        h = Game.objects.get(id = request.session['game_id'])
+                        h.member_health -= (10 + (Player.objects.get(id = Game.objects.get(id = request.session['game_id']).joiner.id).level - 1) * 4)
+                        h.save()
+                elif request.session['role'] == 4:
+                    if request.POST['attack'] == "basic_attack":
+                        h = Game.objects.get(id = request.session['game_id'])
+                        h.member_health -= (7 + (Player.objects.get(id = Game.objects.get(id = request.session['game_id']).joiner.id).level - 1) * 3)
+                        h.save()
+                elif request.session['role'] == 5:
+                    if request.POST['attack'] == "basic_attack":
+                        h = Game.objects.get(id = request.session['game_id'])
+                        h.member_health -= (7 + (Player.objects.get(id = Game.objects.get(id = request.session['game_id']).joiner.id).level - 1) * 3)
+                        h.save()
+                t = Game.objects.get(id = request.session['game_id'])
+                t.creator_turn = False
+                t.save()
+            else:
+                messages.error(request, "Please wait for your turn", extra_tags = "wait")
+        else:          
+            if Game.objects.get(id = request.session['game_id']).creator_turn == False:
+                if request.session['role'] == 1:
+                    if request.POST['attack'] == "basic_attack":
+                        h = Game.objects.get(id = request.session['game_id']) 
+                        h.creator_health -= (4 + (Player.objects.get(id = Game.objects.get(id = request.session['game_id']).joiner.id).level - 1) * 2)
+                        h.save()
+                elif request.session['role'] == 2:
+                    if request.POST['attack'] == "basic_attack":
+                        h = Game.objects.get(id = request.session['game_id']) 
+                        h.creator_health -= (10 + (Player.objects.get(id = Game.objects.get(id = request.session['game_id']).joiner.id).level - 1) * 4)
+                        h.save()
+                elif request.session['role'] == 3:
+                    if request.POST['attack'] == "basic_attack":
+                        h = Game.objects.get(id = request.session['game_id'])
+                        h.creator_health  -= (10 + (Player.objects.get(id = Game.objects.get(id = request.session['game_id']).joiner.id).level - 1) * 4)
+                        h.save()
+                elif request.session['role'] == 4:
+                    if request.POST['attack'] == "basic_attack":
+                        h = Game.objects.get(id = request.session['game_id'])
+                        h.creator_health  -= (7 + (Player.objects.get(id = Game.objects.get(id = request.session['game_id']).joiner.id).level - 1) * 3)
+                        h.save()
+                elif request.session['role'] == 5:
+                    if request.POST['attack'] == "basic_attack":
+                        h = Game.objects.get(id = request.session['game_id'])
+                        h.creator_health  -= (7 + (Player.objects.get(id = Game.objects.get(id = request.session['game_id']).joiner.id).level - 1) * 3)
+                        h.save()
+                t = Game.objects.get(id = request.session['game_id'])
+                t.creator_turn = True
+                t.save()
+            else:
+                messages.error(request, "Please wait for your turn", extra_tags = "wait")
+
+        if Game.objects.get(id = request.session['game_id']).member_health <= 0:
+            messages.error(request, "You Lose!", extra_tags = "lose")
+            return redirect(f"/game_sess/{request.session['game_id']}")
+        elif Game.objects.get(id = request.session['game_id']).creator_health <= 0:
+            messages.success(request, "You Win!", extra_tags = "win")
+            return redirect(f"/game_sess/{request.session['game_id']}")
+
+        return redirect(f"/game_sess/{request.session['game_id']}")
     else:
         return redirect('/')
 
 def leave(request):
+    if request.method == 'POST':
+        if request.POST['leave'] == "surrender":
+            messages.error(request, "You Lost!", extra_tags = "lose")
+            return redirect(f"/game_sess/{request.session['game_id']}")
+        elif request.POST['leave'] == "back":
+            return redirect('/main')
+    else:
+        return redirect('/')
+
+def surrender(request):
+    if request.method == 'POST':
+        Game.objects.get(id = request.session['game_id']).delete()
+        return redirect('/main')
+    else:
+        return redirect('/')
+
+def win(request):
     if request.method == 'POST':
         return redirect('/main')
     else:

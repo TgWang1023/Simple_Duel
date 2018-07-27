@@ -36,6 +36,7 @@
         </script>
     </head>
     <body>
+        {% load static %}
         <nav class="navbar navbar-dark bg-dark">
             <a class="navbar-brand text-light">Simple Duel</a>
                 <div class="dropdown ml-auto">
@@ -70,10 +71,10 @@
         <div class="row p-4" style="background-color: aliceblue; width: 100%; min-height: 750px; margin: 0%">
             <div class="col">
                 <div class="card text-center" style="width: 25rem;">
-                    <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Card image cap">
+                    <img class="card-img-top" src="{% static role_pic %}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">{{ request.session.username }}</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <p class="card-text">Example Description</p>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item text-center">
@@ -84,9 +85,8 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 25rem;">
+                <!--test-->
+                <div class="card mt-4" style="width: 25rem;">
                     <div class="card-header">
                         Statistics
                     </div>
@@ -96,16 +96,20 @@
                         <li class="list-group-item">DEF: {{ defe }}</li>
                     </ul>
                 </div>
-                <div class="card-group mt-4" style="width: 25rem;">
+                <!--test-->
+            </div>
+            <div class="col">
+                {% load static %}
+                <div class="card-group" style="width: 25rem;">
                     <div class="card">
-                        <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+                        <img class="card-img-top" src="{% static s1_img %}" alt="Card image cap">
                         <div class="card-body">
                         <h5 class="card-title">{{ s1_name }}</h5>
                         <p class="card-text">{{ s1_desc }}</p>
                         </div>
                     </div>
                     <div class="card">
-                        <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+                        <img class="card-img-top" src="{% static s2_img %}" alt="Card image cap">
                         <div class="card-body">
                         <h5 class="card-title">{{ s2_name }}</h5>
                         <p class="card-text">{{ s2_desc }}</p>
@@ -114,14 +118,14 @@
                 </div>
                 <div class="card-group" style="width: 25rem;">
                     <div class="card">
-                        <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+                        <img class="card-img-top" src="{% static s3_img %}" alt="Card image cap">
                         <div class="card-body">
                         <h5 class="card-title">{{ s3_name }}</h5>
                         <p class="card-text">{{ s3_desc }}</p>
                         </div>
                     </div>
                     <div class="card">
-                        <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+                        <img class="card-img-top" src="{% static s4_img %}" alt="Card image cap">
                         <div class="card-body">
                         <h5 class="card-title">{{ s4_name }}</h5>
                         <p class="card-text">{{ s4_desc }}</p>

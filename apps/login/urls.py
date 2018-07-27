@@ -17,4 +17,6 @@ urlpatterns = [
     url(r'^game_sess/(?P<id>\d+)$', views.game_sess),
     url(r'^game_sess/attack$', views.attack),
     url(r'^game_sess/leave$', views.leave),
+    url(r'^game_sess/surrender$', views.surrender),
+    url(r'^game_sess/win$', views.win)
 ]

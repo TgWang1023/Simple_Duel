@@ -71,6 +71,7 @@ class Game(models.Model):
     creator_pos = models.BooleanField()
     member_pos = models.BooleanField()
     battleground = models.IntegerField()
+    creator_turn = models.BooleanField()
     creator = models.ForeignKey(Player, related_name = "create")
     joiner = models.ForeignKey(Player, related_name = "join")
     players = models.ManyToManyField(Player, related_name = "games")
